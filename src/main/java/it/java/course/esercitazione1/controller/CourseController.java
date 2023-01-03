@@ -4,7 +4,6 @@ import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +21,17 @@ public class CourseController {
 
     @GetMapping("/course")
     public ResponseEntity<List<Course>> getCourses() {
-        List<Course> courseArrayList = new ArrayList<Course>();
-        courseRepository.findAll().forEach(courseArrayList::add);
+        List<Course> courseArrayList = new ArrayList<>(courseRepository.findAll());
         if (courseArrayList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(courseArrayList, HttpStatus.OK);
+    }
+
+    @GetMapping("/course/{id}")
+    public ResponseEntity<Optional<Course>> getCourseByID(@PathVariable("id") long id) {
+        Optional<Course> course = courseRepository.findById(id);
+        return new ResponseEntity<>(course, HttpStatus.OK);
     }
 
     @PostMapping("/course/add")
@@ -60,6 +64,5 @@ public class CourseController {
         }
 
         return new ResponseEntity<>(courseRepository.save(courseU), HttpStatus.OK);
-
     }
 }
