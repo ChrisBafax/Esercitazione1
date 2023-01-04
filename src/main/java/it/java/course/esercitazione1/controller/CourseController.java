@@ -1,6 +1,5 @@
 package it.java.course.esercitazione1.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.User;
@@ -8,15 +7,10 @@ import it.java.course.esercitazione1.repository.CourseRepository;
 
 import it.java.course.esercitazione1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 @RestController
@@ -29,13 +23,8 @@ public class CourseController {
     private UserRepository userRepository;
 
     @GetMapping("/course")
-    public List<Course> getCourses() {
-        return courseRepository.findAll();
-    }
     // Show all the courses saved in the database
-    /* public ResponseEntity<?> getCourses() {
-
-
+    public ResponseEntity<?> getCourses() {
          Set<Course> courseArrayList = new HashSet<>(courseRepository.findAll());
 
         if (courseArrayList.isEmpty()) {
@@ -44,7 +33,7 @@ public class CourseController {
         } else {
             return new ResponseEntity<>(courseArrayList, HttpStatus.OK);
         }
-    }*/
+    }
 
     @GetMapping("/course/{id}")
     // Show a course by giving his id
