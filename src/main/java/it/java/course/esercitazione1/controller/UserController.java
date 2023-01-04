@@ -2,8 +2,10 @@ package it.java.course.esercitazione1.controller;
 
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
+import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.User;
 import it.java.course.esercitazione1.repository.CourseRepository;
+import it.java.course.esercitazione1.repository.RoleRepository;
 import it.java.course.esercitazione1.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -22,7 +22,9 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    private CourseRepository courseRepository;
+    CourseRepository courseRepository;
+    @Autowired
+    RoleRepository roleRepository;
 
     @GetMapping("/user")
     public ResponseEntity<?> getUsers() {
@@ -100,5 +102,19 @@ public class UserController {
                 () -> new ResourceNotFoundException("User with ID " + id + " not found.")
         );
         return user.getCourses();
+    }
+
+    @PostMapping("/user/{id}/role")
+    public ResponseEntity<?> createRoleUser(@PathVariable Long id, @RequestBody Role role) {
+        User userU = userRepository.getReferenceById(id);
+
+        Role roleU = roleRepository.save(role);
+
+        Set<Role> roleSet = new HashSet<>();
+        roleSet.add(roleU);
+        userU.setRoles(roleSet);
+        User userA = userRepository.save(userU);
+
+        return new ResponseEntity<>(userA,HttpStatus.CREATED);
     }
 }

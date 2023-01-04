@@ -25,6 +25,6 @@ public class Role {
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private RoleType admin;
+    private RoleType roleType;
 
 }
