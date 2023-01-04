@@ -94,11 +94,11 @@ public class UserController {
         return new ResponseEntity<>(userRepository.save(userU), HttpStatus.OK);
     }
 
-    @GetMapping("/course/{id}/users")
-    public List<User> getUsersForCourse(@PathVariable("id") long id) {
-        Course course = courseRepository.findById(id).orElseThrow(
+    @GetMapping("/user/{id}/courses")
+    public List<Course> getCoursesForUser(@PathVariable("id") long id) {
+        User user = userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User with ID " + id + " not found.")
         );
-        return course.getUsers();
+        return user.getCourses();
     }
 }

@@ -12,11 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "user",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
-        })
+@Table(name = "role")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -55,4 +51,16 @@ public class User {
     public List<Course> getCourses() {
         return new ArrayList<>(courses);
     }
+
+    @ManyToMany(cascade = {
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.DETACH,
+            CascadeType.PERSIST
+    },  fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new LinkedHashSet<>();
 }
