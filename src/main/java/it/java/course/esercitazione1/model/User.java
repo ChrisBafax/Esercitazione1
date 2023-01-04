@@ -1,11 +1,13 @@
 package it.java.course.esercitazione1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.*;
 
 import javax.validation.constraints.*;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -46,5 +48,6 @@ public class User {
             CascadeType.DETACH,
             CascadeType.PERSIST
     }, mappedBy = "users", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Course> courses = new LinkedHashSet<>();
 }

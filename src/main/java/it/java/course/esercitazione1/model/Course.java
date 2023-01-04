@@ -1,12 +1,15 @@
 package it.java.course.esercitazione1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,6 +37,7 @@ public class Course {
             CascadeType.DETACH,
             CascadeType.PERSIST
     }, fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinTable(name = "courses_users",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
