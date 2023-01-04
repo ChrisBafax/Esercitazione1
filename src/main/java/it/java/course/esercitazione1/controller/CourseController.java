@@ -3,6 +3,7 @@ package it.java.course.esercitazione1.controller;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.repository.CourseRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,10 @@ public class CourseController {
     CourseRepository courseRepository;
 
     @GetMapping("/course")
+    // Show all the courses saved in the database
     public ResponseEntity<List<Course>> getCourses() {
         List<Course> courseArrayList = new ArrayList<>(courseRepository.findAll());
+
         if (courseArrayList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -29,25 +32,39 @@ public class CourseController {
     }
 
     @GetMapping("/course/{id}")
-    public ResponseEntity<Optional<Course>> getCourseByID(@PathVariable("id") long id) {
+    // Show a course by giving his id
+    public ResponseEntity<?> getCourseByID(@PathVariable("id") long id) {
         Optional<Course> course = courseRepository.findById(id);
-        return new ResponseEntity<>(course, HttpStatus.OK);
+
+        if (course.isPresent()) {
+            return new ResponseEntity<Optional<Course>>(course, HttpStatus.OK);
+        } else {
+            // Custom output message
+            return new ResponseEntity<String>("The course id " + id +
+                    " you are looking for does not exist in this database.",HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/course/add")
+    // Add a new course to the db
     public ResponseEntity<Course> createCourse(@RequestBody Course course) {
         Course courseN = courseRepository.save(course);
+
         return new ResponseEntity<>(courseN, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/course/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteCourse(@PathVariable("id") long id) {
+    // Delete a course by his id
+    public ResponseEntity<String> deleteCourse(@PathVariable("id") long id) {
         courseRepository.deleteById(id);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        // Custom output message
+        return new ResponseEntity<>("The course with the id " + id +
+                " has been successfully been deleted", HttpStatus.OK);
     }
 
     @PutMapping("/course/update/{id}")
+    // Update a course by his id
     public ResponseEntity<Course> updateCourse(@PathVariable("id") long id, @RequestBody Course courseRequest) {
         Course courseU = courseRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Course ID " + id + " not found.")
