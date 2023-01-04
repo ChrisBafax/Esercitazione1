@@ -2,16 +2,16 @@ package it.java.course.esercitazione1.controller;
 
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
+import it.java.course.esercitazione1.model.User;
 import it.java.course.esercitazione1.repository.CourseRepository;
 
+import it.java.course.esercitazione1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -19,6 +19,8 @@ public class CourseController {
 
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/course")
     // Show all the courses saved in the database
@@ -26,10 +28,10 @@ public class CourseController {
         List<Course> courseArrayList = new ArrayList<>(courseRepository.findAll());
 
         if (courseArrayList.isEmpty()) {
-            return new ResponseEntity<String>("The Course Database is empty at this moment.",
+            return new ResponseEntity<>("The Course Database is empty at this moment.",
                     HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<List<Course>>(courseArrayList, HttpStatus.OK);
+            return new ResponseEntity<>(courseArrayList, HttpStatus.OK);
         }
     }
 
@@ -39,11 +41,11 @@ public class CourseController {
         Optional<Course> course = courseRepository.findById(id);
 
         if (course.isPresent()) {
-            return new ResponseEntity<Optional<Course>>(course, HttpStatus.OK);
+            return new ResponseEntity<>(course, HttpStatus.OK);
         } else {
             // Custom output message
-            return new ResponseEntity<String>("The course ID " + id +
-                    " you are looking for does not exist in this database.",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("The course ID " + id +
+                    " you are looking for does not exist in this database.", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -88,5 +90,18 @@ public class CourseController {
         }
 
         return new ResponseEntity<>(courseRepository.save(courseU), HttpStatus.OK);
+    }
+
+    @PostMapping("/user/{id}/course")
+    public ResponseEntity<?> createCourseUser(@PathVariable Long id, @RequestBody Course course) {
+        User user = userRepository.getReferenceById(id);
+
+        Course courseU = courseRepository.getReferenceById(course.getId());
+
+        Set<User> userSet = new HashSet<>();
+        userSet.add(user);
+        courseU.setUsers(userSet);
+        Course courseA = courseRepository.save(courseU);
+        return new ResponseEntity<>(courseA,HttpStatus.CREATED);
     }
 }

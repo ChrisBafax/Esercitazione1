@@ -6,26 +6,36 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "course")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
+    @Column(name ="id")
     private long id;
 
-
-    @Getter
-    @Setter
     @Column(name = "name")
     private String name;
 
-    @Getter
-    @Setter
     @Column(name = "description")
     private String description;
 
+    @ManyToMany(cascade = {
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.DETACH,
+            CascadeType.PERSIST
+    }, fetch = FetchType.LAZY)
+    @JoinTable(name = "courses_users",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new LinkedHashSet<>();
 }
