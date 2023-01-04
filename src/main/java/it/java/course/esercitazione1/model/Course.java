@@ -42,4 +42,8 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new LinkedHashSet<>();
+
+    public List<User> getUsers() {
+        return new ArrayList<>(users);
+    }
 }

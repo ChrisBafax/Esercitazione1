@@ -115,4 +115,12 @@ public class CourseController {
         Course courseA = courseRepository.save(courseU);
         return new ResponseEntity<>(courseA,HttpStatus.CREATED);
     }
+
+    @GetMapping("/user/{id}/courses")
+    public List<Course> getCoursesForUser(@PathVariable("id") long id) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User with ID " + id + " not found.")
+        );
+        return user.getCourses();
+    }
 }

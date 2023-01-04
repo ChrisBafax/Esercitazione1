@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,4 +51,8 @@ public class User {
     }, mappedBy = "users", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Course> courses = new LinkedHashSet<>();
+
+    public List<Course> getCourses() {
+        return new ArrayList<>(courses);
+    }
 }
