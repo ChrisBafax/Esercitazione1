@@ -27,6 +27,7 @@ public class UserController {
     RoleRepository roleRepository;
 
     @GetMapping("/user")
+    // Show all the users
     public ResponseEntity<?> getUsers() {
         List<User> userArrayList = new ArrayList<>(userRepository.findAll());
 
@@ -39,6 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
+    // Look for a user from his id
     public ResponseEntity<?> getUserByID(@PathVariable("id") long id) {
         Optional<User> user = userRepository.findById(id);
 
@@ -52,6 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/user/add")
+    // Create a new user
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User userN = userRepository.save(user);
 
@@ -59,6 +62,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user/delete/{id}")
+    // Delete an existing user id
     public ResponseEntity<String> deleteUser(@PathVariable("id") long id) {
         userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User ID " + id + " not found.")
@@ -72,6 +76,7 @@ public class UserController {
     }
 
     @PutMapping("/user/update/{id}")
+    // Update a user from his id
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User userRequest) {
         User userU = userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User ID " + id +
@@ -97,6 +102,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}/courses")
+    // Look for all the courses a user is following
     public List<Course> getCoursesForUser(@PathVariable("id") long id) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User with ID " + id + " not found.")
@@ -105,6 +111,7 @@ public class UserController {
     }
 
     @PostMapping("/user/{id}/role")
+    // Set the role for a given user
     public ResponseEntity<?> createRoleUser(@PathVariable Long id, @RequestBody Role role) {
         User userU = userRepository.getReferenceById(id);
 

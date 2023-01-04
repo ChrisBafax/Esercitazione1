@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -21,6 +22,7 @@ public class RoleController {
     RoleRepository roleRepository;
 
     @GetMapping("/roles")
+    // Look for all of the saved roles
     public ResponseEntity<ArrayList<Role>> getRoles(){
         ArrayList<Role> _roles = (ArrayList<Role>) roleRepository.findAll();
         return new ResponseEntity<>(_roles, HttpStatus.OK);
@@ -32,17 +34,18 @@ public class RoleController {
         return new ResponseEntity<>(_role,HttpStatus.OK);
     }
     @DeleteMapping("/role/{id}")
+    // Delete an existing role
     public ResponseEntity<HttpStatus> deleteRole(@PathVariable long id){
         roleRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/role/{roleType}/users")
+    // Look for all user that have the given roleType
     public List<User> getUsersForCourse(@PathVariable("roleType") RoleType roleType) {
         Role role = roleRepository.findByroleType(roleType).orElseThrow(
                 () -> new ResourceNotFoundException("No ser with role " + roleType + " has been found.")
         );
-
         return role.getUsers();
     }
 }
