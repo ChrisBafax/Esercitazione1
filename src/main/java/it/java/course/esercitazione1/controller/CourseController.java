@@ -22,13 +22,15 @@ public class CourseController {
 
     @GetMapping("/course")
     // Show all the courses saved in the database
-    public ResponseEntity<List<Course>> getCourses() {
+    public ResponseEntity<?> getCourses() {
         List<Course> courseArrayList = new ArrayList<>(courseRepository.findAll());
 
         if (courseArrayList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>("The Course Database is empty at this moment.",
+                    HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<List<Course>>(courseArrayList, HttpStatus.OK);
         }
-        return new ResponseEntity<>(courseArrayList, HttpStatus.OK);
     }
 
     @GetMapping("/course/{id}")
@@ -40,7 +42,7 @@ public class CourseController {
             return new ResponseEntity<Optional<Course>>(course, HttpStatus.OK);
         } else {
             // Custom output message
-            return new ResponseEntity<String>("The course id " + id +
+            return new ResponseEntity<String>("The course ID " + id +
                     " you are looking for does not exist in this database.",HttpStatus.NOT_FOUND);
         }
     }
@@ -56,10 +58,15 @@ public class CourseController {
     @DeleteMapping("/course/delete/{id}")
     // Delete a course by his id
     public ResponseEntity<String> deleteCourse(@PathVariable("id") long id) {
+        // Check existence of the Course
+        courseRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Course ID " + id + " not found.")
+        );
+
         courseRepository.deleteById(id);
 
         // Custom output message
-        return new ResponseEntity<>("The course with the id " + id +
+        return new ResponseEntity<>("The course with the ID " + id +
                 " has been successfully been deleted", HttpStatus.OK);
     }
 
