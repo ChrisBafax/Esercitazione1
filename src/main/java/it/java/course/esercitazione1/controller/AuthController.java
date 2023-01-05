@@ -48,7 +48,7 @@ public class AuthController {
     AuthBOImpl authBO;
 
     @PostMapping("/sign-in")
-    // Log in
+    // Sign in
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager

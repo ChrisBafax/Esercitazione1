@@ -143,7 +143,7 @@ public class UserController {
         userU.setRoles(roleSet);
 
         User userA = userRepository.save(userU);
-        return new ResponseEntity<>(userA,HttpStatus.CREATED);
+        return new ResponseEntity<>(userA, HttpStatus.CREATED);
     }
 
     @PostMapping("/user/{id}/course")
@@ -158,6 +158,6 @@ public class UserController {
         courseU.setUsers(userSet);
 
         Course courseA = courseRepository.save(courseU);
-        return new ResponseEntity<>(courseA,HttpStatus.CREATED);
+        return new ResponseEntity<>(courseA, HttpStatus.CREATED);
     }
 }
