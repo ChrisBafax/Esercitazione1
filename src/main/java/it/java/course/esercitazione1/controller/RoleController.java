@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -21,14 +20,15 @@ public class RoleController {
     @Autowired
     RoleRepository roleRepository;
 
-    @GetMapping("/roles")
-    // Look for all of the saved roles
+    @GetMapping("/role")
+    // Look for all the saved roles
     public ResponseEntity<ArrayList<Role>> getRoles(){
         ArrayList<Role> _roles = (ArrayList<Role>) roleRepository.findAll();
         return new ResponseEntity<>(_roles, HttpStatus.OK);
     }
 
     @PostMapping("/role/Add")
+    // Create a new Role
     public ResponseEntity<Role> createRole(@RequestBody Role role){
         Role _role = roleRepository.save(role);
         return new ResponseEntity<>(_role,HttpStatus.OK);

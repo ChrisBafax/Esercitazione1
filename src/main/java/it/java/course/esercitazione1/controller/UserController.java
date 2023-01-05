@@ -125,4 +125,17 @@ public class UserController {
         return new ResponseEntity<>(userA,HttpStatus.CREATED);
     }
 
+    @PostMapping("/user/{id}/course")
+    // Add a user to a course
+    public ResponseEntity<?> createCourseUser(@PathVariable Long id, @RequestBody Course course) {
+        User user = userRepository.getReferenceById(id);
+
+        Course courseU = courseRepository.getReferenceById(course.getId());
+
+        Set<User> userSet = new HashSet<>();
+        userSet.add(user);
+        courseU.setUsers(userSet);
+        Course courseA = courseRepository.save(courseU);
+        return new ResponseEntity<>(courseA,HttpStatus.CREATED);
+    }
 }

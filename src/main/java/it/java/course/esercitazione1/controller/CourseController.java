@@ -19,8 +19,6 @@ public class CourseController {
 
     @Autowired
     CourseRepository courseRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     @GetMapping("/course")
     // Show all the courses saved in the database
@@ -92,20 +90,8 @@ public class CourseController {
         return new ResponseEntity<>(courseRepository.save(courseU), HttpStatus.OK);
     }
 
-    @PostMapping("/user/{id}/course")
-    public ResponseEntity<?> createCourseUser(@PathVariable Long id, @RequestBody Course course) {
-        User user = userRepository.getReferenceById(id);
-
-        Course courseU = courseRepository.getReferenceById(course.getId());
-
-        Set<User> userSet = new HashSet<>();
-        userSet.add(user);
-        courseU.setUsers(userSet);
-        Course courseA = courseRepository.save(courseU);
-        return new ResponseEntity<>(courseA,HttpStatus.CREATED);
-    }
-
     @GetMapping("/course/{id}/users")
+    // Look for the users that are in the given course
     public List<User> getUsersForCourse(@PathVariable("id") long id) {
         Course course = courseRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User with ID " + id + " not found.")
