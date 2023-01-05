@@ -1,6 +1,8 @@
 package it.java.course.esercitazione1.business.impl;
 
 // Import from other packages
+import it.java.course.esercitazione1.business.AuthBO;
+
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 
 import it.java.course.esercitazione1.model.Role;
@@ -26,7 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class AuthBOImpl {
+public class AuthBOImpl implements AuthBO {
 
     @Autowired
     UserRepository userRepository;
