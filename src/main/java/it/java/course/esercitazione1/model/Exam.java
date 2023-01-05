@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Size;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "exam")

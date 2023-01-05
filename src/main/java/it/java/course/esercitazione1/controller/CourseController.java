@@ -5,7 +5,6 @@ import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Exam;
-import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.User;
 
 import it.java.course.esercitazione1.repository.CourseRepository;

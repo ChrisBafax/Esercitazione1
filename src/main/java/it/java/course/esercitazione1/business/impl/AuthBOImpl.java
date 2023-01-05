@@ -19,10 +19,6 @@ import it.java.course.esercitazione1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
-// Import from Javax
-import javax.validation.Valid;
 
 // Import from Java
 import java.util.HashSet;
