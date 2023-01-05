@@ -1,11 +1,18 @@
 package it.java.course.esercitazione1.model;
 
+// Import from FasterXML
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+// Import from Jakarta
 import jakarta.persistence.*;
 
+// Import from Lombok
 import lombok.*;
 
+// Import from Javax
 import javax.validation.constraints.*;
+
+// Import from Java
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -61,7 +68,7 @@ public class User {
             CascadeType.REFRESH,
             CascadeType.DETACH,
             CascadeType.PERSIST
-    },  fetch = FetchType.LAZY)
+    }, fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),

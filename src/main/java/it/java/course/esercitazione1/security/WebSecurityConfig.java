@@ -62,6 +62,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
+    // Access permit to the paths.
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
@@ -70,8 +71,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/course").permitAll()
                 .requestMatchers("/api/course/**").hasRole("ADMIN")
                 .requestMatchers("/api/course/Add").hasRole("MODERATOR")
-                .requestMatchers("/api/course/Add").hasRole("ADMIN")
-                .requestMatchers("/api/user/**").hasRole("USER")
+                .requestMatchers("/api/user").hasRole("USER")
                 .requestMatchers("/api/user/**").hasRole("MODERATOR")
                 .requestMatchers("/api/user/**").hasRole("ADMIN")
                 .anyRequest().authenticated();

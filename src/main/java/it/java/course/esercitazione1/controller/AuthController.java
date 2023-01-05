@@ -1,5 +1,6 @@
 package it.java.course.esercitazione1.controller;
 
+// Import from other packages
 import it.java.course.esercitazione1.model.RoleType;
 import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.User;
@@ -15,6 +16,7 @@ import it.java.course.esercitazione1.repository.UserRepository;
 import it.java.course.esercitazione1.security.jwt.JwtUtils;
 import it.java.course.esercitazione1.security.services.UserDetailsImpl;
 
+// Import from SpringFrameWork
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpHeaders;
@@ -30,8 +32,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.*;
 
+// Import from Javax
 import javax.validation.Valid;
 
+// Import from Java
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -1,12 +1,18 @@
 package it.java.course.esercitazione1.model;
 
+// Import from FasterXML
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+// Import from Jakarta
 import jakarta.persistence.*;
+
+// Import from Lombok
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// Import from Java
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;

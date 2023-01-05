@@ -1,15 +1,23 @@
 package it.java.course.esercitazione1.controller;
 
+// Import from other packages
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
+
 import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.RoleType;
 import it.java.course.esercitazione1.model.User;
+
 import it.java.course.esercitazione1.repository.RoleRepository;
+
+// Import from SpringFrameWork
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
+// Import from Java
 import java.util.ArrayList;
 import java.util.List;
 

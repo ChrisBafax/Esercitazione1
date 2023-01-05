@@ -1,5 +1,6 @@
 package it.java.course.esercitazione1.exception;
 
+// Import from Java
 import java.util.Date;
 
 public class ErrorMessage {
