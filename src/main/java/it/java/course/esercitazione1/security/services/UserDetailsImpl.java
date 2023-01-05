@@ -1,7 +1,9 @@
 package it.java.course.esercitazione1.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import it.java.course.esercitazione1.model.User;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

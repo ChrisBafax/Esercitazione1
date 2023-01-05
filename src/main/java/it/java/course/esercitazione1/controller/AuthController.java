@@ -3,26 +3,34 @@ package it.java.course.esercitazione1.controller;
 import it.java.course.esercitazione1.model.RoleType;
 import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.User;
+
 import it.java.course.esercitazione1.payload.request.LoginRequest;
 import it.java.course.esercitazione1.payload.request.SignupRequest;
 import it.java.course.esercitazione1.payload.response.MessageResponse;
 import it.java.course.esercitazione1.payload.response.UserInfoResponse;
+
 import it.java.course.esercitazione1.repository.RoleRepository;
 import it.java.course.esercitazione1.repository.UserRepository;
+
 import it.java.course.esercitazione1.security.jwt.JwtUtils;
 import it.java.course.esercitazione1.security.services.UserDetailsImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
