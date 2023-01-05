@@ -74,6 +74,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/user/**").hasRole("MODERATOR")
                 .requestMatchers("/api/user/**").hasRole("ADMIN")
                 .requestMatchers("/api/course/**").hasRole("ADMIN")
+                .requestMatchers("/api/exam/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         httpSecurity.authenticationProvider(authenticationProvider());

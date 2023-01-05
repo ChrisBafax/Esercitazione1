@@ -4,11 +4,14 @@ package it.java.course.esercitazione1.controller;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 
 import it.java.course.esercitazione1.model.Course;
+import it.java.course.esercitazione1.model.Exam;
+import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.User;
 
 import it.java.course.esercitazione1.repository.CourseRepository;
 
 // Import from SpringFrameWork
+import it.java.course.esercitazione1.repository.ExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -25,6 +28,9 @@ public class CourseController {
 
     @Autowired
     CourseRepository courseRepository;
+
+    @Autowired
+    ExamRepository examRepository;
 
     @GetMapping("/course")
     // Show all the courses saved in the database
@@ -103,5 +109,13 @@ public class CourseController {
                 () -> new ResourceNotFoundException("User with ID " + id + " not found.")
         );
         return course.getUsers();
+    }
+
+    @GetMapping("/course/{id}/exams")
+    public ResponseEntity<?> getExamsByCourse(@PathVariable("id") long id) {
+        Course course = courseRepository.findById(id).orElseThrow(()
+                -> new ResourceNotFoundException("Course with id " + id + "not found."));
+        ArrayList<Exam> examL = (ArrayList<Exam>) examRepository.findByCourse(course);
+        return new ResponseEntity<>(examL, HttpStatus.OK);
     }
 }

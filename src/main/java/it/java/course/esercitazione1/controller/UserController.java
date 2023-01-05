@@ -148,7 +148,7 @@ public class UserController {
 
     @PostMapping("/user/{id}/course")
     // Add a user to a course
-    public ResponseEntity<?> createCourseUser(@PathVariable Long id, @RequestBody Course course) {
+    public ResponseEntity<?> createCourseUser(@PathVariable long id, @RequestBody Course course) {
         User user = userRepository.getReferenceById(id);
 
         Course courseU = courseRepository.getReferenceById(course.getId());

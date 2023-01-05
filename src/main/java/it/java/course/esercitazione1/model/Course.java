@@ -13,10 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 // Import from Java
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "course")
@@ -52,4 +49,13 @@ public class Course {
     public List<User> getUsers() {
         return new ArrayList<>(users);
     }
+
+    @OneToMany(cascade = {
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.DETACH,
+            CascadeType.PERSIST
+    }, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Exam> exams = new LinkedList<>();
 }
