@@ -1,15 +1,14 @@
 package it.java.course.esercitazione1.controller;
 
 // Import from other packages
+import it.java.course.esercitazione1.business.impl.AuthBOImpl;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Role;
-import it.java.course.esercitazione1.model.RoleType;
 import it.java.course.esercitazione1.model.User;
 
 import it.java.course.esercitazione1.payload.request.SignupRequest;
-import it.java.course.esercitazione1.payload.response.MessageResponse;
 import it.java.course.esercitazione1.repository.CourseRepository;
 import it.java.course.esercitazione1.repository.RoleRepository;
 import it.java.course.esercitazione1.repository.UserRepository;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 // Import from Java
@@ -38,10 +36,7 @@ public class UserController {
     @Autowired
     RoleRepository roleRepository;
     @Autowired
-    PasswordEncoder encoder;
-
-    @Autowired
-    AuthController authController;
+    AuthBOImpl authBO;
 
     @GetMapping("/user")
     // Show all the users
@@ -74,17 +69,17 @@ public class UserController {
     // Create a new user with role USER
     public ResponseEntity<?> createUser(@Valid @RequestBody SignupRequest signUpRequest) {
         signUpRequest.setRole(null);
-        authController.registerUser(signUpRequest);
+        User user = authBO.registerU(signUpRequest);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PostMapping("/user/add/mod")
     // Create a new user with role option
     public ResponseEntity<?> createUserAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
-        authController.registerUser(signUpRequest);
+        User user = authBO.registerU(signUpRequest);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/user/delete/{id}")
