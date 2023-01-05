@@ -33,13 +33,12 @@ public class AuthBOImpl implements AuthBO {
 
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     RoleRepository roleRepository;
-
     @Autowired
     PasswordEncoder encoder;
 
+    // Register a new user with an encrypted password and the appropriate role
     public User registerU(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             throw new ResourceAlreadyPresentException("Error: Username is already taken!");
@@ -57,6 +56,7 @@ public class AuthBOImpl implements AuthBO {
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
+        // Check what the string role equals to
         if (strRoles == null) {
             Role userRole = roleRepository.findByRoleType(RoleType.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -83,6 +83,7 @@ public class AuthBOImpl implements AuthBO {
             });
         }
 
+        // Set the Role and Save
         user.setRoles(roles);
         userRepository.save(user);
         return user;
