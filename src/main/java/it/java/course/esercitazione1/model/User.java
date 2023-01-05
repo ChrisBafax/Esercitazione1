@@ -12,7 +12,11 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -63,4 +67,10 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new LinkedHashSet<>();
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 }

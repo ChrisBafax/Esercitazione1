@@ -43,7 +43,7 @@ public class RoleController {
     @GetMapping("/role/{roleType}/users")
     // Look for all user that have the given roleType
     public List<User> getUsersForCourse(@PathVariable("roleType") RoleType roleType) {
-        Role role = roleRepository.findByroleType(roleType).orElseThrow(
+        Role role = roleRepository.findByRoleType(roleType).orElseThrow(
                 () -> new ResourceNotFoundException("No ser with role " + roleType + " has been found.")
         );
         return role.getUsers();
