@@ -39,7 +39,7 @@ public class AuthBOImpl implements AuthBO {
     PasswordEncoder encoder;
 
     // Register a new user with an encrypted password and the appropriate role
-    public User registerU(@Valid @RequestBody SignupRequest signUpRequest) {
+    public User registerU(SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             throw new ResourceAlreadyPresentException("Error: Username is already taken!");
         }
