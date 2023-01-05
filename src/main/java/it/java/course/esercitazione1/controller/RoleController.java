@@ -41,7 +41,7 @@ public class RoleController {
         Role _role = roleRepository.save(role);
         return new ResponseEntity<>(_role,HttpStatus.OK);
     }
-    @DeleteMapping("/role/{id}")
+    @DeleteMapping("/role/delete/{id}")
     // Delete an existing role
     public ResponseEntity<HttpStatus> deleteRole(@PathVariable long id){
         roleRepository.deleteById(id);
@@ -50,7 +50,7 @@ public class RoleController {
 
     @GetMapping("/role/{roleType}/users")
     // Look for all user that have the given roleType
-    public List<User> getUsersForCourse(@PathVariable("roleType") RoleType roleType) {
+    public List<User> getUsersForRoleType(@PathVariable("roleType") RoleType roleType) {
         Role role = roleRepository.findByRoleType(roleType).orElseThrow(
                 () -> new ResourceNotFoundException("No ser with role " + roleType + " has been found.")
         );

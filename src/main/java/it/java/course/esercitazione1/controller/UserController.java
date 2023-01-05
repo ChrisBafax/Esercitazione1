@@ -5,8 +5,11 @@ import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Role;
+import it.java.course.esercitazione1.model.RoleType;
 import it.java.course.esercitazione1.model.User;
 
+import it.java.course.esercitazione1.payload.request.SignupRequest;
+import it.java.course.esercitazione1.payload.response.MessageResponse;
 import it.java.course.esercitazione1.repository.CourseRepository;
 import it.java.course.esercitazione1.repository.RoleRepository;
 import it.java.course.esercitazione1.repository.UserRepository;
@@ -17,9 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 // Import from Java
+import javax.validation.Valid;
 import java.util.*;
 
 @RestController
@@ -32,6 +37,11 @@ public class UserController {
     CourseRepository courseRepository;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    PasswordEncoder encoder;
+
+    @Autowired
+    AuthController authController;
 
     @GetMapping("/user")
     // Show all the users
@@ -61,11 +71,20 @@ public class UserController {
     }
 
     @PostMapping("/user/add")
-    // Create a new user
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User userN = userRepository.save(user);
+    // Create a new user with role USER
+    public ResponseEntity<?> createUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        signUpRequest.setRole(null);
+        authController.registerUser(signUpRequest);
 
-        return new ResponseEntity<>(userN, HttpStatus.CREATED);
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PostMapping("/user/add/mod")
+    // Create a new user with role option
+    public ResponseEntity<?> createUserAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
+        authController.registerUser(signUpRequest);
+
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
     @DeleteMapping("/user/delete/{id}")

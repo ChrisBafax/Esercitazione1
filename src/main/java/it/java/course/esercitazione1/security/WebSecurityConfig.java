@@ -69,11 +69,11 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/course").permitAll()
-                .requestMatchers("/api/course/**").hasRole("ADMIN")
                 .requestMatchers("/api/course/Add").hasRole("MODERATOR")
                 .requestMatchers("/api/user").hasRole("USER")
                 .requestMatchers("/api/user/**").hasRole("MODERATOR")
                 .requestMatchers("/api/user/**").hasRole("ADMIN")
+                .requestMatchers("/api/course/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         httpSecurity.authenticationProvider(authenticationProvider());
