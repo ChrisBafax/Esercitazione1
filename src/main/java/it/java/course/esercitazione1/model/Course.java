@@ -1,18 +1,12 @@
 package it.java.course.esercitazione1.model;
 
-// Import from FasterXML
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-// Import from Jakarta
 import jakarta.persistence.*;
-
-// Import from Lombok
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// Import from Java
 import java.util.*;
 
 @Entity
@@ -25,7 +19,7 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="id")
+    @Column(name = "id")
     private long id;
 
     @Column(name = "name")
@@ -45,11 +39,6 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new LinkedHashSet<>();
-
-    public List<User> getUsers() {
-        return new ArrayList<>(users);
-    }
-
     @OneToMany(cascade = {
             CascadeType.MERGE,
             CascadeType.REFRESH,
@@ -58,4 +47,8 @@ public class Course {
     }, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Exam> exams = new LinkedList<>();
+
+    public List<User> getUsers() {
+        return new ArrayList<>(users);
+    }
 }

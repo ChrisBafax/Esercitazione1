@@ -1,25 +1,16 @@
 package it.java.course.esercitazione1.security.jwt;
 
-// Import from FasterXML
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-// Import from Jakarta
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-// Import from Slf4j
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-// Import from SpringFrameWork
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
-// Import from Java
 import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.Map;
 

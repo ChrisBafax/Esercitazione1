@@ -1,18 +1,15 @@
 package it.java.course.esercitazione1.model;
 
-// Import from FasterXML
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-// Import from Jakarta
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-// Import from Lombok
-import lombok.*;
-
-// Import from Javax
-import javax.validation.constraints.*;
-
-// Import from Java
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -31,7 +28,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
@@ -59,10 +56,6 @@ public class User {
     @JsonIgnore
     private Set<Course> courses = new LinkedHashSet<>();
 
-    public List<Course> getCourses() {
-        return new ArrayList<>(courses);
-    }
-
     @ManyToMany(cascade = {
             CascadeType.MERGE,
             CascadeType.REFRESH,
@@ -79,5 +72,9 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public List<Course> getCourses() {
+        return new ArrayList<>(courses);
     }
 }

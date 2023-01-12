@@ -19,7 +19,7 @@ public class Exam {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "grade")
@@ -49,7 +49,6 @@ public class Exam {
             joinColumns = @JoinColumn(name = "exam_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private Course course;
-
 
     public void setCourse(Course course) {
         this.course = course;

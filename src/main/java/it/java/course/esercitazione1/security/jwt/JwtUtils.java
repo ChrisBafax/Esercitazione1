@@ -1,19 +1,15 @@
 package it.java.course.esercitazione1.security.jwt;
 
 import io.jsonwebtoken.*;
-
 import it.java.course.esercitazione1.security.services.UserDetailsImpl;
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
