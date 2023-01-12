@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface RoleBO {
 
-    public ArrayList<Role> getAll();
+    ArrayList<Role> getAll();
 
-    public Role getByID(long id);
+    Role getByID(long id);
 
-    public Role create(Role role);
+    Role create(Role role);
 
-    public String delete(long id);
+    String delete(long id);
 
-    public List<User> getRoleUsers(RoleType roleType);
+    List<User> getRoleUsers(RoleType roleType);
 }

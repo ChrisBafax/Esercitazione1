@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface ExamBO {
 
-    public List<Exam> getAll();
+    List<Exam> getAll();
 
-    public Exam getById(Long id);
+    Exam getById(Long id);
 
-    public Exam create(Exam exam);
+    Exam create(Exam exam);
 
-    public List<Exam> getByGrade(int grade);
+    List<Exam> getByGrade(int grade);
 
-    public Exam addExamToCourse(Long examId, long courseId);
+    Exam addExamToCourse(Long examId, long courseId);
 }

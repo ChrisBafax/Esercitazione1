@@ -48,16 +48,13 @@ public class AuthBOImpl implements AuthBO {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtUtils jwtUtils;
+    @Autowired
+    UserBOImpl userBO;
 
     // Register a new user with an encrypted password and the appropriate role
     public User registerU(SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            throw new ResourceAlreadyPresentException("Error: Username is already taken!");
-        }
-
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            throw new ResourceAlreadyPresentException("Error: Email is already in use!");
-        }
+        userBO.existsUsername(signUpRequest.getUsername());
+        userBO.existEmail(signUpRequest.getEmail());
 
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
@@ -93,7 +90,6 @@ public class AuthBOImpl implements AuthBO {
                 }
             });
         }
-
         // Set the Role and Save
         user.setRoles(roles);
         userRepository.save(user);
@@ -107,7 +103,6 @@ public class AuthBOImpl implements AuthBO {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
         return userDetails;
     }
 
@@ -121,13 +116,11 @@ public class AuthBOImpl implements AuthBO {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-
         return roles;
     }
 
     public ResponseCookie authOut() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-        
         return cookie;
     }
 }

@@ -42,13 +42,13 @@ public class CourseController {
         return new ResponseEntity<>(courseBO.createC(course), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/course/delete/{id}")
+    @DeleteMapping("/course/{id}/delete")
     // Delete a course by his id
     public ResponseEntity<String> deleteCourse(@PathVariable("id") long id) {
         return new ResponseEntity<>(courseBO.delete(id), HttpStatus.OK);
     }
 
-    @PutMapping("/course/update/{id}")
+    @PutMapping("/course/{id}/update")
     // Update a course by his id
     public ResponseEntity<Course> updateCourse(@PathVariable("id") long id, @RequestBody Course courseRequest) {
         return new ResponseEntity<>(courseBO.update(id,courseRequest), HttpStatus.OK);

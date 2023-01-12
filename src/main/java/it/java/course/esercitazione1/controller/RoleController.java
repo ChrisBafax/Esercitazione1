@@ -37,7 +37,7 @@ public class RoleController {
     public ResponseEntity<Role> createRole(@RequestBody Role role){
         return new ResponseEntity<>(roleBO.create(role),HttpStatus.OK);
     }
-    @DeleteMapping("/role/delete/{id}")
+    @DeleteMapping("/role/{id}/delete")
     // Delete an existing role
     public ResponseEntity<String> deleteRole(@PathVariable long id) {
         return new ResponseEntity<>(roleBO.delete(id),HttpStatus.NO_CONTENT);

@@ -10,17 +10,17 @@ import java.util.Set;
 
 public interface CourseBO {
 
-    public Set<Course> getAll();
+    Set<Course> getAll();
 
-    public Course getByID(long id);
+    Course getByID(long id);
 
-    public Course createC(Course course);
+    Course createC(Course course);
 
-    public String delete(long id);
+    String delete(long id);
 
-    public Course update(long id, Course courseRequest);
+    Course update(long id, Course courseRequest);
 
-    public List<User> getCourseUsers(long id);
+    List<User> getCourseUsers(long id);
 
-    public ArrayList<Exam> getCourseExams(long id);
+    ArrayList<Exam> getCourseExams(long id);
 }

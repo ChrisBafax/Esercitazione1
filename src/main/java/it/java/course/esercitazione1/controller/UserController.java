@@ -59,13 +59,13 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/user/delete/{id}")
+    @DeleteMapping("/user/{id}/delete")
     // Delete an existing user id
     public ResponseEntity<String> deleteUser(@PathVariable("id") long id) {
         return new ResponseEntity<>(userBO.delete(id), HttpStatus.OK);
     }
 
-    @PutMapping("/user/update/{id}")
+    @PutMapping("/user/{id}/update")
     // Update a user from his id
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User userRequest) {
         return new ResponseEntity<>(userBO.update(id, userRequest), HttpStatus.OK);

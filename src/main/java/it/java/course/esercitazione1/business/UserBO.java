@@ -9,17 +9,21 @@ import java.util.List;
 
 public interface UserBO {
 
-    public User createU(SignupRequest signUpRequest);
+    User createU(SignupRequest signUpRequest);
 
-    public List<User> getAll();
+    List<User> getAll();
 
-    public User getByID(long id);
+    User getByID(long id);
 
-    public String delete(long id);
+    void existsUsername(String username);
 
-    public User update(long id, User userRequest);
+    void existEmail(String email);
 
-    public User createRole(long id, Role role);
+    String delete(long id);
 
-    public Course createCourse(long id, Course course);
+    User update(long id, User userRequest);
+
+    User createRole(long id, Role role);
+
+    Course createCourse(long id, Course course);
 }

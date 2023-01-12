@@ -10,13 +10,13 @@ import java.util.List;
 
 public interface AuthBO {
 
-    public User registerU(SignupRequest signUpRequest);
+    User registerU(SignupRequest signUpRequest);
 
-    public UserDetailsImpl authUser(LoginRequest loginRequest);
+    UserDetailsImpl authUser(LoginRequest loginRequest);
 
-    public ResponseCookie authCookie(UserDetailsImpl userDetails);
+    ResponseCookie authCookie(UserDetailsImpl userDetails);
 
-    public List<String> authRoles(UserDetailsImpl userDetails);
+    List<String> authRoles(UserDetailsImpl userDetails);
 
-    public ResponseCookie authOut();
+    ResponseCookie authOut();
 }

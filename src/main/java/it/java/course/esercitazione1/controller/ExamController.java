@@ -2,8 +2,6 @@ package it.java.course.esercitazione1.controller;
 
 import it.java.course.esercitazione1.business.impl.ExamBOImpl;
 import it.java.course.esercitazione1.model.Exam;
-import it.java.course.esercitazione1.repository.CourseRepository;
-import it.java.course.esercitazione1.repository.ExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +15,6 @@ public class ExamController {
 
     @Autowired
     ExamBOImpl examBO;
-
-    @Autowired
-    ExamRepository examRepository;
-
-    @Autowired
-    CourseRepository courseRepository;
 
     @GetMapping("/exam")
     public ResponseEntity<List<Exam>> getExams() {

@@ -1,6 +1,7 @@
 package it.java.course.esercitazione1.business.impl;
 
 import it.java.course.esercitazione1.business.UserBO;
+import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Role;
@@ -10,6 +11,7 @@ import it.java.course.esercitazione1.repository.CourseRepository;
 import it.java.course.esercitazione1.repository.RoleRepository;
 import it.java.course.esercitazione1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,11 +27,12 @@ public class UserBOImpl implements UserBO {
     CourseRepository courseRepository;
     @Autowired
     AuthBOImpl authBO;
+    @Autowired
+    PasswordEncoder encoder;
 
     public User createU(SignupRequest signUpRequest) {
         signUpRequest.setRole(null);
         User user = authBO.registerU(signUpRequest);
-
         return user;
     }
 
@@ -48,8 +51,19 @@ public class UserBOImpl implements UserBO {
                 () -> new ResourceNotFoundException("The user ID " + id +
                         " you are looking for does not exist in this database.")
         );
-
         return user;
+    }
+
+    public void existsUsername(String username) {
+        if (userRepository.existsByUsername(username)) {
+            throw new ResourceAlreadyPresentException("Error: Username is already taken!");
+        }
+    }
+
+    public void existEmail(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new ResourceAlreadyPresentException("Error: Email is already in use!");
+        }
     }
 
     public String delete(long id) {
@@ -75,10 +89,10 @@ public class UserBOImpl implements UserBO {
         // Check if the variable password has been updated or not
         if (userRequest.getPassword() != null) {
             userU.setPassword(userRequest.getPassword());
+        } else {
+            userU.setPassword(encoder.encode(userRequest.getPassword()));
         }
-
         userRepository.save(userU);
-
         return userU;
     }
 
@@ -92,7 +106,6 @@ public class UserBOImpl implements UserBO {
         userU.setRoles(roleSet);
 
         User userA = userRepository.save(userU);
-
         return userA;
     }
 
@@ -106,7 +119,6 @@ public class UserBOImpl implements UserBO {
         courseU.setUsers(userSet);
 
         Course courseA = courseRepository.save(courseU);
-
         return courseA;
     }
 
