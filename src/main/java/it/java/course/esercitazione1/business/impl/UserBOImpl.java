@@ -111,4 +111,8 @@ public class UserBOImpl implements UserBO {
         return courseRepository.save(courseU);
     }
 
+    public List<Course> getCourses(long id) throws ResourceNotFoundException {
+        User user = getByID(id);
+        return user.getCourses();
+    }
 }

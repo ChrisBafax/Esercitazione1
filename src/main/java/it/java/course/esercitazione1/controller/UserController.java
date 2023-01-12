@@ -66,7 +66,7 @@ public class UserController {
 
     @PostMapping("/user/add/mod")
     // Create a new user with role option
-    public ResponseEntity<?> createUserAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<User> createUserAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
         User user;
         try {
             user = userBO.createUMod(signUpRequest);
@@ -107,20 +107,26 @@ public class UserController {
 
     @GetMapping("/user/{id}/courses")
     // Look for all the courses a user is following
-    public List<Course> getCoursesForUser(@PathVariable("id") long id) {
-        User user = userBO.getByID(id);
-        return user.getCourses();
+    public ResponseEntity<List<Course>> getCoursesForUser(@PathVariable("id") long id) {
+        List<Course> user;
+        try {
+            user = userBO.getCourses(id);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("The user ID " + id +
+                    " you are looking for does not exist in this database.");
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/user/{id}/role")
     // Set the role for a given user
-    public ResponseEntity<?> createRoleUser(@PathVariable long id, @RequestBody Role role) {
+    public ResponseEntity<User> createRoleUser(@PathVariable long id, @RequestBody Role role) {
         return new ResponseEntity<>(userBO.createRole(id, role), HttpStatus.CREATED);
     }
 
     @PostMapping("/user/{id}/course")
     // Add a user to a course
-    public ResponseEntity<?> createCourseUser(@PathVariable long id, @RequestBody Course course) {
+    public ResponseEntity<Course> createCourseUser(@PathVariable long id, @RequestBody Course course) {
         return new ResponseEntity<>(userBO.createCourse(id, course), HttpStatus.CREATED);
     }
 }

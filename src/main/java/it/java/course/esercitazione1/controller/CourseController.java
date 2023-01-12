@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -22,13 +23,13 @@ public class CourseController {
 
     @GetMapping("/course")
     // Show all the courses saved in the database
-    public ResponseEntity<?> getCourses() {
+    public ResponseEntity<Set<Course>> getCourses() {
         return new ResponseEntity<>(courseBO.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/course/{id}")
     // Show a course by giving his id
-    public ResponseEntity<?> getCourseByID(@PathVariable("id") long id) {
+    public ResponseEntity<Course> getCourseByID(@PathVariable("id") long id) {
         Course courseID;
         try {
             courseID = courseBO.getByID(id);
@@ -81,7 +82,7 @@ public class CourseController {
     }
 
     @GetMapping("/course/{id}/exams")
-    public ResponseEntity<?> getExamsByCourse(@PathVariable("id") long id) {
+    public ResponseEntity<ArrayList<Exam>> getExamsByCourse(@PathVariable("id") long id) {
         ArrayList<Exam> exams;
         try {
             exams = courseBO.getCourseExams(id);
