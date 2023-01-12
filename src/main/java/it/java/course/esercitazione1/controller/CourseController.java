@@ -35,7 +35,6 @@ public class CourseController {
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("The course with the ID " + id + " has not been found.");
         }
-
         return new ResponseEntity<>(courseID, HttpStatus.OK);
     }
 
@@ -89,6 +88,6 @@ public class CourseController {
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("The course with the ID " + id + " , that you are trying to delete doesn't exist.");
         }
-        return new ResponseEntity<>(courseBO.getCourseExams(id), HttpStatus.OK);
+        return new ResponseEntity<>(exams, HttpStatus.OK);
     }
 }

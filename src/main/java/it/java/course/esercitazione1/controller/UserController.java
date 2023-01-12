@@ -61,15 +61,20 @@ public class UserController {
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("Error: Role is not found.");
         }
-
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PostMapping("/user/add/mod")
     // Create a new user with role option
     public ResponseEntity<?> createUserAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
-        User user = authBO.registerU(signUpRequest);
-
+        User user;
+        try {
+            user = userBO.createUMod(signUpRequest);
+        } catch (ResourceAlreadyPresentException e) {
+            throw new ResourceAlreadyPresentException("Error: Username/Email is already in use!");
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Error: Role is not found.");
+        }
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
@@ -83,7 +88,6 @@ public class UserController {
             throw new ResourceNotFoundException("The user ID " + id +
                     " you are looking to delete does not exist in this database.");
         }
-
         return new ResponseEntity<>(strg, HttpStatus.OK);
     }
 
@@ -98,7 +102,6 @@ public class UserController {
                     " you are looking to update " +
                     "does not exist in this database.");
         }
-
         return new ResponseEntity<>(userU, HttpStatus.OK);
     }
 

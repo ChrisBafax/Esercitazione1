@@ -38,6 +38,10 @@ public class UserBOImpl implements UserBO {
         return authBO.registerU(signUpRequest);
     }
 
+    public User createUMod(SignupRequest signUpRequest) throws ResourceAlreadyPresentException, ResourceNotFoundException {
+        return authBO.registerU(signUpRequest);
+    }
+
     public List<User> getAll() throws ResourceNotFoundException {
         List<User> userArrayList = new ArrayList<>(userRepository.findAll());
 
