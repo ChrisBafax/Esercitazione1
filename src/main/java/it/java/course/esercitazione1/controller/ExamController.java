@@ -1,6 +1,6 @@
 package it.java.course.esercitazione1.controller;
 
-import it.java.course.esercitazione1.business.impl.ExamBOImpl;
+import it.java.course.esercitazione1.business.ExamBO;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Exam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ExamController {
 
     @Autowired
-    ExamBOImpl examBO;
+    ExamBO examBO;
 
     @GetMapping("/exam")
     public ResponseEntity<List<Exam>> getExams() {

@@ -13,6 +13,8 @@ public interface UserBO {
 
     User createU(SignupRequest signUpRequest) throws ResourceAlreadyPresentException, ResourceNotFoundException;
 
+    User createUMod(SignupRequest signUpRequest) throws ResourceAlreadyPresentException, ResourceNotFoundException;
+
     List<User> getAll() throws ResourceNotFoundException;
 
     User getByID(long id) throws ResourceNotFoundException;
@@ -24,4 +26,6 @@ public interface UserBO {
     User createRole(long id, Role role);
 
     Course createCourse(long id, Course course);
+
+    List<Course> getCourses(long id) throws ResourceNotFoundException;
 }

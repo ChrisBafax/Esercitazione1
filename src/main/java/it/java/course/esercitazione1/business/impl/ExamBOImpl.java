@@ -1,5 +1,6 @@
 package it.java.course.esercitazione1.business.impl;
 
+import it.java.course.esercitazione1.business.CourseBO;
 import it.java.course.esercitazione1.business.ExamBO;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
@@ -19,7 +20,7 @@ public class ExamBOImpl implements ExamBO {
     @Autowired
     CourseRepository courseRepository;
     @Autowired
-    CourseBOImpl courseBO;
+    CourseBO courseBO;
 
     public List<Exam> getAll() {
         return examRepository.findAll();

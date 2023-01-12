@@ -1,5 +1,6 @@
 package it.java.course.esercitazione1.business.impl;
 
+import it.java.course.esercitazione1.business.AuthBO;
 import it.java.course.esercitazione1.business.UserBO;
 import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
@@ -29,7 +30,7 @@ public class UserBOImpl implements UserBO {
     @Autowired
     CourseRepository courseRepository;
     @Autowired
-    AuthBOImpl authBO;
+    AuthBO authBO;
     @Autowired
     PasswordEncoder encoder;
 

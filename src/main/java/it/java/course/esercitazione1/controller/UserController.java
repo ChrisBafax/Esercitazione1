@@ -1,7 +1,7 @@
 package it.java.course.esercitazione1.controller;
 
-import it.java.course.esercitazione1.business.impl.AuthBOImpl;
-import it.java.course.esercitazione1.business.impl.UserBOImpl;
+import it.java.course.esercitazione1.business.AuthBO;
+import it.java.course.esercitazione1.business.UserBO;
 import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
@@ -21,9 +21,9 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    AuthBOImpl authBO;
+    AuthBO authBO;
     @Autowired
-    UserBOImpl userBO;
+    UserBO userBO;
 
     @GetMapping("/user")
     // Show all the users

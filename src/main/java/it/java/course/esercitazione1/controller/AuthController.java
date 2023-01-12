@@ -1,6 +1,6 @@
 package it.java.course.esercitazione1.controller;
 
-import it.java.course.esercitazione1.business.impl.AuthBOImpl;
+import it.java.course.esercitazione1.business.AuthBO;
 import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.payload.request.LoginRequest;
@@ -23,7 +23,7 @@ import java.util.List;
 public class AuthController {
 
     @Autowired
-    AuthBOImpl authBO;
+    AuthBO authBO;
 
     @PostMapping("/sign-in")
     // Sign in

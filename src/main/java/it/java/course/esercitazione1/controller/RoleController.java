@@ -1,6 +1,6 @@
 package it.java.course.esercitazione1.controller;
 
-import it.java.course.esercitazione1.business.impl.RoleBOImpl;
+import it.java.course.esercitazione1.business.RoleBO;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.RoleType;
@@ -18,7 +18,7 @@ import java.util.List;
 public class RoleController {
 
     @Autowired
-    RoleBOImpl roleBO;
+    RoleBO roleBO;
 
     @GetMapping("/role")
     // Look for all the saved roles

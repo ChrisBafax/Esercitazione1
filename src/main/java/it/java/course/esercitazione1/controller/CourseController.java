@@ -1,6 +1,6 @@
 package it.java.course.esercitazione1.controller;
 
-import it.java.course.esercitazione1.business.impl.CourseBOImpl;
+import it.java.course.esercitazione1.business.CourseBO;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Exam;
@@ -19,7 +19,7 @@ import java.util.Set;
 public class CourseController {
 
     @Autowired
-    CourseBOImpl courseBO;
+    CourseBO courseBO;
 
     @GetMapping("/course")
     // Show all the courses saved in the database
