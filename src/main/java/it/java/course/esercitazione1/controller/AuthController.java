@@ -1,30 +1,20 @@
 package it.java.course.esercitazione1.controller;
 
-// Import from other packages
 import it.java.course.esercitazione1.business.impl.AuthBOImpl;
-
 import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.payload.request.LoginRequest;
 import it.java.course.esercitazione1.payload.request.SignupRequest;
 import it.java.course.esercitazione1.payload.response.MessageResponse;
 import it.java.course.esercitazione1.payload.response.UserInfoResponse;
-
 import it.java.course.esercitazione1.security.services.UserDetailsImpl;
-
-// Import from SpringFrameWork
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
-// Import from Javax
 import javax.validation.Valid;
-
-// Import from Java
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)

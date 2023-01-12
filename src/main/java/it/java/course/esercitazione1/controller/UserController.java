@@ -1,28 +1,20 @@
 package it.java.course.esercitazione1.controller;
 
-// Import from other packages
 import it.java.course.esercitazione1.business.impl.AuthBOImpl;
 import it.java.course.esercitazione1.business.impl.UserBOImpl;
-
 import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.User;
-
 import it.java.course.esercitazione1.payload.request.SignupRequest;
-
-// Import from SpringFrameWork
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
-// Import from Java
 import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -63,13 +55,11 @@ public class UserController {
     public ResponseEntity<User> createUser(@Valid @RequestBody SignupRequest signUpRequest) {
         User user;
         try {
-            user= userBO.createU(signUpRequest);
+            user = userBO.createU(signUpRequest);
         } catch (ResourceAlreadyPresentException e) {
             throw new ResourceAlreadyPresentException("Error: Username/Email is already in use!");
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("Error: Role is not found.");
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Error: Role is not found.");
         }
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);

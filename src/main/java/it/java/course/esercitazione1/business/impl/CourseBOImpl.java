@@ -10,7 +10,10 @@ import it.java.course.esercitazione1.repository.ExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class CourseBOImpl implements CourseBO {
@@ -20,7 +23,7 @@ public class CourseBOImpl implements CourseBO {
     @Autowired
     ExamRepository examRepository;
 
-    public Set<Course> getAll() throws ResourceNotFoundException{
+    public Set<Course> getAll() throws ResourceNotFoundException {
         Set<Course> courseArrayList = new HashSet<>(courseRepository.findAll());
 
         if (courseArrayList.isEmpty()) {

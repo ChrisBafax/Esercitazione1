@@ -1,21 +1,15 @@
 package it.java.course.esercitazione1.business.impl;
 
-// Import from other packages
 import it.java.course.esercitazione1.business.AuthBO;
-
 import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.RoleType;
 import it.java.course.esercitazione1.model.User;
-
 import it.java.course.esercitazione1.payload.request.LoginRequest;
 import it.java.course.esercitazione1.payload.request.SignupRequest;
-
 import it.java.course.esercitazione1.repository.RoleRepository;
 import it.java.course.esercitazione1.repository.UserRepository;
-
-// Import from SpringFrameWork
 import it.java.course.esercitazione1.security.jwt.JwtUtils;
 import it.java.course.esercitazione1.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-// Import from Java
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -100,7 +93,6 @@ public class AuthBOImpl implements AuthBO {
     public UserDetailsImpl authUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return (UserDetailsImpl) authentication.getPrincipal();

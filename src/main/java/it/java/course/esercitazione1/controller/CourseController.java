@@ -1,23 +1,17 @@
 package it.java.course.esercitazione1.controller;
 
-// Import from other packages
 import it.java.course.esercitazione1.business.impl.CourseBOImpl;
-
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Exam;
 import it.java.course.esercitazione1.model.User;
-
-// Import from SpringFrameWork
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
-// Import from Java
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -68,7 +62,7 @@ public class CourseController {
     public ResponseEntity<Course> updateCourse(@PathVariable("id") long id, @RequestBody Course courseRequest) {
         Course courseU;
         try {
-            courseU = courseBO.update(id,courseRequest);
+            courseU = courseBO.update(id, courseRequest);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("The course with the ID " + id + " , that you are trying to delete doesn't exist.");
         }

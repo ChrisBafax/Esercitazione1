@@ -1,22 +1,15 @@
 package it.java.course.esercitazione1.controller;
 
-// Import from other packages
 import it.java.course.esercitazione1.business.impl.RoleBOImpl;
-
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.RoleType;
 import it.java.course.esercitazione1.model.User;
-
-// Import from SpringFrameWork
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
-// Import from Java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +22,7 @@ public class RoleController {
 
     @GetMapping("/role")
     // Look for all the saved roles
-    public ResponseEntity<ArrayList<Role>> getRoles(){
+    public ResponseEntity<ArrayList<Role>> getRoles() {
         return new ResponseEntity<>(roleBO.getAll(), HttpStatus.OK);
     }
 
@@ -44,11 +37,13 @@ public class RoleController {
         }
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
+
     @PostMapping("/role/Add")
     // Create a new Role
-    public ResponseEntity<Role> createRole(@RequestBody Role role){
-        return new ResponseEntity<>(roleBO.create(role),HttpStatus.OK);
+    public ResponseEntity<Role> createRole(@RequestBody Role role) {
+        return new ResponseEntity<>(roleBO.create(role), HttpStatus.OK);
     }
+
     @DeleteMapping("/role/{id}/delete")
     // Delete an existing role
     public ResponseEntity<String> deleteRole(@PathVariable long id) {
@@ -59,7 +54,7 @@ public class RoleController {
             throw new ResourceNotFoundException("The role ID " + id +
                     " you are trying to delete does not exist in this database.");
         }
-        return new ResponseEntity<>(strg,HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(strg, HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/role/{roleType}/users")

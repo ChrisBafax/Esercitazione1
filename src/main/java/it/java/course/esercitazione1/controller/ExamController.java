@@ -19,7 +19,7 @@ public class ExamController {
 
     @GetMapping("/exam")
     public ResponseEntity<List<Exam>> getExams() {
-        return new ResponseEntity<>(examBO.getAll(),HttpStatus.OK);
+        return new ResponseEntity<>(examBO.getAll(), HttpStatus.OK);
     }
 
     @PostMapping("/exam/add")
