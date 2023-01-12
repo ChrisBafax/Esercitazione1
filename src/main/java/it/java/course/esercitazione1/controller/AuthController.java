@@ -3,6 +3,8 @@ package it.java.course.esercitazione1.controller;
 // Import from other packages
 import it.java.course.esercitazione1.business.impl.AuthBOImpl;
 
+import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
+import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.payload.request.LoginRequest;
 import it.java.course.esercitazione1.payload.request.SignupRequest;
 import it.java.course.esercitazione1.payload.response.MessageResponse;
@@ -50,7 +52,16 @@ public class AuthController {
     @PostMapping("/sign-up")
     // Create a new user
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        authBO.registerU(signUpRequest);
+        try {
+            authBO.registerU(signUpRequest);
+        } catch (ResourceAlreadyPresentException e) {
+            throw new ResourceAlreadyPresentException("Error: Username/Email is already in use!");
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Error: Role is not found.");
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Error: Role is not found.");
+        }
+
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 

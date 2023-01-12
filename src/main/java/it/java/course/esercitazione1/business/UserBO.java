@@ -15,10 +15,6 @@ public interface UserBO {
 
     User getByID(long id);
 
-    void existsUsername(String username);
-
-    void existEmail(String email);
-
     String delete(long id);
 
     User update(long id, User userRequest);

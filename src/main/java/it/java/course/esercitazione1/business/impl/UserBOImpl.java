@@ -1,7 +1,6 @@
 package it.java.course.esercitazione1.business.impl;
 
 import it.java.course.esercitazione1.business.UserBO;
-import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Role;
@@ -36,11 +35,11 @@ public class UserBOImpl implements UserBO {
         return user;
     }
 
-    public List<User> getAll() {
+    public List<User> getAll() throws ResourceNotFoundException {
         List<User> userArrayList = new ArrayList<>(userRepository.findAll());
 
         if (userArrayList.isEmpty()) {
-            throw new ResourceNotFoundException("The Course Database is empty at this moment.");
+            throw new ResourceNotFoundException("User Database.");
         } else {
             return userArrayList;
         }
@@ -52,18 +51,6 @@ public class UserBOImpl implements UserBO {
                         " you are looking for does not exist in this database.")
         );
         return user;
-    }
-
-    public void existsUsername(String username) {
-        if (userRepository.existsByUsername(username)) {
-            throw new ResourceAlreadyPresentException("Error: Username is already taken!");
-        }
-    }
-
-    public void existEmail(String email) {
-        if (userRepository.existsByEmail(email)) {
-            throw new ResourceAlreadyPresentException("Error: Email is already in use!");
-        }
     }
 
     public String delete(long id) {

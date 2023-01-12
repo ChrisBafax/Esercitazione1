@@ -4,7 +4,6 @@ package it.java.course.esercitazione1.business.impl;
 import it.java.course.esercitazione1.business.AuthBO;
 
 import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
-
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.RoleType;
@@ -48,13 +47,15 @@ public class AuthBOImpl implements AuthBO {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtUtils jwtUtils;
-    @Autowired
-    UserBOImpl userBO;
 
     // Register a new user with an encrypted password and the appropriate role
-    public User registerU(SignupRequest signUpRequest) {
-        userBO.existsUsername(signUpRequest.getUsername());
-        userBO.existEmail(signUpRequest.getEmail());
+    public User registerU(SignupRequest signUpRequest) throws ResourceAlreadyPresentException, ResourceNotFoundException, RuntimeException {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            throw new ResourceAlreadyPresentException("Error: Username is already taken!");
+        }
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            throw new ResourceAlreadyPresentException("Error: Email is already in use!");
+        }
 
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
@@ -67,24 +68,24 @@ public class AuthBOImpl implements AuthBO {
         // Check what the string role equals to
         if (strRoles == null) {
             Role userRole = roleRepository.findByRoleType(RoleType.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new RuntimeException("Error: Role."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin" -> {
                         Role adminRole = roleRepository.findByRoleType(RoleType.ROLE_ADMIN)
-                                .orElseThrow(() -> new ResourceNotFoundException("Error: Role is not found."));
+                                .orElseThrow(() -> new ResourceNotFoundException("Error: Role."));
                         roles.add(adminRole);
                     }
                     case "mod" -> {
                         Role modRole = roleRepository.findByRoleType(RoleType.ROLE_MODERATOR)
-                                .orElseThrow(() -> new ResourceNotFoundException("Error: Role is not found."));
+                                .orElseThrow(() -> new ResourceNotFoundException("Error: Role."));
                         roles.add(modRole);
                     }
                     default -> {
                         Role userRole = roleRepository.findByRoleType(RoleType.ROLE_USER)
-                                .orElseThrow(() -> new ResourceNotFoundException("Error: Role is not found."));
+                                .orElseThrow(() -> new ResourceNotFoundException("Error: Role."));
                         roles.add(userRole);
                     }
                 }
@@ -108,7 +109,6 @@ public class AuthBOImpl implements AuthBO {
 
     public ResponseCookie authCookie(UserDetailsImpl userDetails) {
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-
         return jwtCookie;
     }
 

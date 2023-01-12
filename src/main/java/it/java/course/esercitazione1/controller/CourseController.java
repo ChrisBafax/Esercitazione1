@@ -3,7 +3,9 @@ package it.java.course.esercitazione1.controller;
 // Import from other packages
 import it.java.course.esercitazione1.business.impl.CourseBOImpl;
 
+import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
+import it.java.course.esercitazione1.model.Exam;
 import it.java.course.esercitazione1.model.User;
 
 // Import from SpringFrameWork
@@ -33,7 +35,14 @@ public class CourseController {
     @GetMapping("/course/{id}")
     // Show a course by giving his id
     public ResponseEntity<?> getCourseByID(@PathVariable("id") long id) {
-        return new ResponseEntity<>(courseBO.getByID(id), HttpStatus.OK);
+        Course courseID;
+        try {
+            courseID = courseBO.getByID(id);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("The course with the ID " + id + " has not been found.");
+        }
+
+        return new ResponseEntity<>(courseID, HttpStatus.OK);
     }
 
     @PostMapping("/course/add")
@@ -45,23 +54,47 @@ public class CourseController {
     @DeleteMapping("/course/{id}/delete")
     // Delete a course by his id
     public ResponseEntity<String> deleteCourse(@PathVariable("id") long id) {
-        return new ResponseEntity<>(courseBO.delete(id), HttpStatus.OK);
+        String courseD;
+        try {
+            courseD = courseBO.delete(id);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("The course with the ID " + id + " , that you are trying to delete doesn't exist.");
+        }
+        return new ResponseEntity<>(courseD, HttpStatus.OK);
     }
 
     @PutMapping("/course/{id}/update")
     // Update a course by his id
     public ResponseEntity<Course> updateCourse(@PathVariable("id") long id, @RequestBody Course courseRequest) {
-        return new ResponseEntity<>(courseBO.update(id,courseRequest), HttpStatus.OK);
+        Course courseU;
+        try {
+            courseU = courseBO.update(id,courseRequest);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("The course with the ID " + id + " , that you are trying to delete doesn't exist.");
+        }
+        return new ResponseEntity<>(courseU, HttpStatus.OK);
     }
 
     @GetMapping("/course/{id}/users")
     // Look for the users that are in the given course
-    public List<User> getUsersForCourse(@PathVariable("id") long id) {
-        return courseBO.getCourseUsers(id);
+    public ResponseEntity<List<User>> getUsersForCourse(@PathVariable("id") long id) {
+        List<User> users;
+        try {
+            users = courseBO.getCourseUsers(id);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("The course with the ID " + id + " , that you are trying to delete doesn't exist.");
+        }
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/course/{id}/exams")
     public ResponseEntity<?> getExamsByCourse(@PathVariable("id") long id) {
+        ArrayList<Exam> exams;
+        try {
+            exams = courseBO.getCourseExams(id);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("The course with the ID " + id + " , that you are trying to delete doesn't exist.");
+        }
         return new ResponseEntity<>(courseBO.getCourseExams(id), HttpStatus.OK);
     }
 }

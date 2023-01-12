@@ -4,6 +4,7 @@ package it.java.course.esercitazione1.controller;
 import it.java.course.esercitazione1.business.impl.AuthBOImpl;
 import it.java.course.esercitazione1.business.impl.UserBOImpl;
 
+import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Role;
 import it.java.course.esercitazione1.model.User;
@@ -34,7 +35,13 @@ public class UserController {
     @GetMapping("/user")
     // Show all the users
     public ResponseEntity<?> getUsers() {
-        return new ResponseEntity<>(userBO.getAll(), HttpStatus.OK);
+        List<User> users;
+        try {
+            users = userBO.getAll();
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("The User Database is empty at this moment.");
+        }
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")

@@ -36,4 +36,15 @@ public class ControllerExceptionHandler {
                 ex.getMessage(),
                 request.getDescription(false));
     }
+
+    @ExceptionHandler(ResourceAlreadyPresentException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public ErrorMessage resourceAlreadyPresentException(ResourceAlreadyPresentException ex, WebRequest request) {
+
+        return new ErrorMessage(
+                HttpStatus.NOT_FOUND.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+    }
 }
