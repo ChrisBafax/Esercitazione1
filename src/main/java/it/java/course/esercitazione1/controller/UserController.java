@@ -45,7 +45,7 @@ public class UserController {
             user = userBO.getByID(id);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("The user ID " + id +
-                    " you are looking for does not exist in this database.");
+                    " you are looking for does not exist.");
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -86,7 +86,7 @@ public class UserController {
             strg = userBO.delete(id);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("The user ID " + id +
-                    " you are looking to delete does not exist in this database.");
+                    " you are trying to delete does not exist.");
         }
         return new ResponseEntity<>(strg, HttpStatus.OK);
     }
@@ -113,7 +113,7 @@ public class UserController {
             user = userBO.getCourses(id);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("The user ID " + id +
-                    " you are looking for does not exist in this database.");
+                    " you are looking the courses for does not exist.");
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

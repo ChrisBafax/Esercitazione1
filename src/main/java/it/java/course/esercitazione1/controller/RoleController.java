@@ -33,7 +33,7 @@ public class RoleController {
             role = roleBO.getByID(id);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("The role ID " + id +
-                    " you are looking for does not exist in this database.");
+                    " you are looking for does not exist.");
         }
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
@@ -52,9 +52,9 @@ public class RoleController {
             strg = roleBO.delete(id);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("The role ID " + id +
-                    " you are trying to delete does not exist in this database.");
+                    " you are trying to delete does not exist.");
         }
-        return new ResponseEntity<>(strg, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(strg, HttpStatus.OK);
     }
 
     @GetMapping("/role/{roleType}/users")

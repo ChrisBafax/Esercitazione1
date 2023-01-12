@@ -52,7 +52,7 @@ public class CourseController {
         try {
             courseD = courseBO.delete(id);
         } catch (ResourceNotFoundException e) {
-            throw new ResourceNotFoundException("The course with the ID " + id + " , that you are trying to delete doesn't exist.");
+            throw new ResourceNotFoundException("The course with the ID " + id + " that you are trying to delete doesn't exist.");
         }
         return new ResponseEntity<>(courseD, HttpStatus.OK);
     }
@@ -64,7 +64,7 @@ public class CourseController {
         try {
             courseU = courseBO.update(id, courseRequest);
         } catch (ResourceNotFoundException e) {
-            throw new ResourceNotFoundException("The course with the ID " + id + " , that you are trying to delete doesn't exist.");
+            throw new ResourceNotFoundException("The course with the ID " + id + " that you are trying to update doesn't exist.");
         }
         return new ResponseEntity<>(courseU, HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class CourseController {
         try {
             users = courseBO.getCourseUsers(id);
         } catch (ResourceNotFoundException e) {
-            throw new ResourceNotFoundException("The course with the ID " + id + " , that you are trying to delete doesn't exist.");
+            throw new ResourceNotFoundException("The course with the ID " + id + " that you are trying to reach doesn't exist.");
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
@@ -87,7 +87,7 @@ public class CourseController {
         try {
             exams = courseBO.getCourseExams(id);
         } catch (ResourceNotFoundException e) {
-            throw new ResourceNotFoundException("The course with the ID " + id + " , that you are trying to delete doesn't exist.");
+            throw new ResourceNotFoundException("The course with the ID " + id + " that you are trying to reach doesn't exist.");
         }
         return new ResponseEntity<>(exams, HttpStatus.OK);
     }

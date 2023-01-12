@@ -33,7 +33,7 @@ public class ExamController {
         try {
             exams = examBO.getByGrade(grade);
         } catch (ResourceNotFoundException e) {
-            throw new ResourceNotFoundException("There is no course with the given grade.");
+            throw new ResourceNotFoundException("There is no course with the given grade of " + grade + ".");
         }
         return new ResponseEntity<>(exams, HttpStatus.OK);
     }
@@ -44,7 +44,7 @@ public class ExamController {
         try {
             exam = examBO.addExamToCourse(examId, courseId);
         } catch (ResourceNotFoundException e) {
-            throw new ResourceNotFoundException("Exam with id " + examId + " not found.");
+            throw new ResourceNotFoundException("Exam with id " + examId + " has not been found.");
         }
         return new ResponseEntity<>(exam, HttpStatus.CREATED);
     }
