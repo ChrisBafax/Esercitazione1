@@ -58,10 +58,7 @@ public class AuthController {
             throw new ResourceAlreadyPresentException("Error: Username/Email is already in use!");
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("Error: Role is not found.");
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Error: Role is not found.");
         }
-
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 

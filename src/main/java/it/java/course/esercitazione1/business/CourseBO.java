@@ -1,5 +1,6 @@
 package it.java.course.esercitazione1.business;
 
+import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Exam;
 import it.java.course.esercitazione1.model.User;
@@ -10,17 +11,17 @@ import java.util.Set;
 
 public interface CourseBO {
 
-    Set<Course> getAll();
+    Set<Course> getAll() throws ResourceNotFoundException;
 
-    Course getByID(long id);
+    Course getByID(long id) throws ResourceNotFoundException;
 
     Course createC(Course course);
 
-    String delete(long id);
+    String delete(long id) throws ResourceNotFoundException;
 
-    Course update(long id, Course courseRequest);
+    Course update(long id, Course courseRequest) throws ResourceNotFoundException;
 
-    List<User> getCourseUsers(long id);
+    List<User> getCourseUsers(long id) throws ResourceNotFoundException;
 
-    ArrayList<Exam> getCourseExams(long id);
+    ArrayList<Exam> getCourseExams(long id) throws ResourceNotFoundException;
 }

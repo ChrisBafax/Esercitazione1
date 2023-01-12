@@ -20,26 +20,24 @@ public class CourseBOImpl implements CourseBO {
     @Autowired
     ExamRepository examRepository;
 
-    public Set<Course> getAll() {
+    public Set<Course> getAll() throws ResourceNotFoundException{
         Set<Course> courseArrayList = new HashSet<>(courseRepository.findAll());
 
         if (courseArrayList.isEmpty()) {
-            throw new ResourceNotFoundException("The Course Database is empty at this moment.");
+            throw new ResourceNotFoundException("Database empty.");
         } else {
             return courseArrayList;
         }
     }
 
     public Course getByID(long id) throws ResourceNotFoundException {
-        Course course = courseRepository.findById(id).orElseThrow(() 
-                -> new ResourceNotFoundException("Business"));
 
-        return course;
+        return courseRepository.findById(id).orElseThrow(()
+                -> new ResourceNotFoundException("Course ID."));
     }
 
     public Course createC(Course course) {
-        Course courseN = courseRepository.save(course);
-        return courseN;
+        return courseRepository.save(course);
     }
 
     public String delete(long id) throws ResourceNotFoundException {
@@ -68,13 +66,11 @@ public class CourseBOImpl implements CourseBO {
 
     public List<User> getCourseUsers(long id) throws ResourceNotFoundException {
         Course course = getByID(id);
-        List<User> users= course.getUsers();
-        return users;
+        return course.getUsers();
     }
 
     public ArrayList<Exam> getCourseExams(long id) throws ResourceNotFoundException {
         Course course = getByID(id);
-        ArrayList<Exam> examsL = (ArrayList<Exam>) examRepository.findByCourse(course);
-        return examsL;
+        return (ArrayList<Exam>) examRepository.findByCourse(course);
     }
 }

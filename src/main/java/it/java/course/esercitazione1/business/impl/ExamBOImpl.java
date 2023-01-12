@@ -22,37 +22,34 @@ public class ExamBOImpl implements ExamBO {
     CourseBOImpl courseBO;
 
     public List<Exam> getAll() {
-        List<Exam> exams = examRepository.findAll();
-        return exams;
+        return examRepository.findAll();
     }
 
-    public Exam getById(Long id) {
+    public Exam getById(Long id) throws ResourceNotFoundException {
         Exam exam = examRepository.findById(id).orElseThrow(()
-                -> new ResourceNotFoundException("Exam not found with id " + id));
+                -> new ResourceNotFoundException("Exam not found."));
         return exam;
     }
 
     public Exam create(Exam exam) {
-        Exam examA = examRepository.save(exam);
-        return examA;
+        return examRepository.save(exam);
     }
 
-    public List<Exam> getByGrade(int grade) {
+    public List<Exam> getByGrade(int grade) throws ResourceNotFoundException {
         List<Exam> exams = examRepository.findByGrade(grade);
 
         if (exams.isEmpty()) {
-            throw new ResourceNotFoundException("There is no course with the given grade");
+            throw new ResourceNotFoundException("Grade course.");
         } else {
             return exams;
         }
     }
 
-    public Exam addExamToCourse(Long examId, long courseId) {
+    public Exam addExamToCourse(Long examId, long courseId) throws ResourceNotFoundException {
         Exam exam = getById(examId);
         Course course = courseBO.getByID(courseId);
         exam.setCourse(course);
-        Exam examS = examRepository.save(exam);
-        return examS;
+        return examRepository.save(exam);
     }
 
 }

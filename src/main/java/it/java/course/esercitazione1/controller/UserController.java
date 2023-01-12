@@ -4,6 +4,7 @@ package it.java.course.esercitazione1.controller;
 import it.java.course.esercitazione1.business.impl.AuthBOImpl;
 import it.java.course.esercitazione1.business.impl.UserBOImpl;
 
+import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Role;
@@ -34,7 +35,7 @@ public class UserController {
 
     @GetMapping("/user")
     // Show all the users
-    public ResponseEntity<?> getUsers() {
+    public ResponseEntity<List<User>> getUsers() {
         List<User> users;
         try {
             users = userBO.getAll();
@@ -46,14 +47,30 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     // Look for a user from his id
-    public ResponseEntity<?> getUserByID(@PathVariable("id") long id) {
-        return new ResponseEntity<>(userBO.getByID(id), HttpStatus.OK);
+    public ResponseEntity<User> getUserByID(@PathVariable("id") long id) {
+        User user;
+        try {
+            user = userBO.getByID(id);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("The user ID " + id +
+                    " you are looking for does not exist in this database.");
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/user/add")
     // Create a new user with role USER
-    public ResponseEntity<?> createUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        User user = userBO.createU(signUpRequest);
+    public ResponseEntity<User> createUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        User user;
+        try {
+            user= userBO.createU(signUpRequest);
+        } catch (ResourceAlreadyPresentException e) {
+            throw new ResourceAlreadyPresentException("Error: Username/Email is already in use!");
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Error: Role is not found.");
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Error: Role is not found.");
+        }
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
@@ -69,13 +86,30 @@ public class UserController {
     @DeleteMapping("/user/{id}/delete")
     // Delete an existing user id
     public ResponseEntity<String> deleteUser(@PathVariable("id") long id) {
-        return new ResponseEntity<>(userBO.delete(id), HttpStatus.OK);
+        String strg;
+        try {
+            strg = userBO.delete(id);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("The user ID " + id +
+                    " you are looking to delete does not exist in this database.");
+        }
+
+        return new ResponseEntity<>(strg, HttpStatus.OK);
     }
 
     @PutMapping("/user/{id}/update")
     // Update a user from his id
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User userRequest) {
-        return new ResponseEntity<>(userBO.update(id, userRequest), HttpStatus.OK);
+        User userU;
+        try {
+            userU = userBO.update(id, userRequest);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("The user ID " + id +
+                    " you are looking to update " +
+                    "does not exist in this database.");
+        }
+
+        return new ResponseEntity<>(userU, HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}/courses")

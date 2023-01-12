@@ -49,12 +49,12 @@ public class AuthBOImpl implements AuthBO {
     JwtUtils jwtUtils;
 
     // Register a new user with an encrypted password and the appropriate role
-    public User registerU(SignupRequest signUpRequest) throws ResourceAlreadyPresentException, ResourceNotFoundException, RuntimeException {
+    public User registerU(SignupRequest signUpRequest) throws ResourceAlreadyPresentException, ResourceNotFoundException {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            throw new ResourceAlreadyPresentException("Error: Username is already taken!");
+            throw new ResourceAlreadyPresentException("Error: Username.");
         }
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            throw new ResourceAlreadyPresentException("Error: Email is already in use!");
+            throw new ResourceAlreadyPresentException("Error: Email.");
         }
 
         // Create new user's account
@@ -68,7 +68,7 @@ public class AuthBOImpl implements AuthBO {
         // Check what the string role equals to
         if (strRoles == null) {
             Role userRole = roleRepository.findByRoleType(RoleType.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role."));
+                    .orElseThrow(() -> new ResourceNotFoundException("Error: Role."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
@@ -103,13 +103,11 @@ public class AuthBOImpl implements AuthBO {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return userDetails;
+        return (UserDetailsImpl) authentication.getPrincipal();
     }
 
     public ResponseCookie authCookie(UserDetailsImpl userDetails) {
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-        return jwtCookie;
+        return jwtUtils.generateJwtCookie(userDetails);
     }
 
     public List<String> authRoles(UserDetailsImpl userDetails) {
@@ -120,7 +118,6 @@ public class AuthBOImpl implements AuthBO {
     }
 
     public ResponseCookie authOut() {
-        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-        return cookie;
+        return jwtUtils.getCleanJwtCookie();
     }
 }

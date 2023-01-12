@@ -19,35 +19,31 @@ public class RoleBOImpl implements RoleBO {
     RoleRepository roleRepository;
 
     public ArrayList<Role> getAll() {
-        ArrayList<Role> roles = (ArrayList<Role>) roleRepository.findAll();
-        return roles;
+        return (ArrayList<Role>) roleRepository.findAll();
     }
 
-    public Role getByID(long id) {
+    public Role getByID(long id) throws ResourceNotFoundException {
         Role role = roleRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("The role ID " + id +
-                        " you are looking for does not exist in this database.")
+                () -> new ResourceNotFoundException("Role ID.")
         );
         return role;
     }
 
     public Role create(Role role) {
-        Role roleN = roleRepository.save(role);
-        return roleN;
+        return roleRepository.save(role);
     }
 
-    public String delete(long id) {
+    public String delete(long id) throws ResourceNotFoundException {
         getByID(id);
         roleRepository.deleteById(id);
         return "The course with the ID " + id +
                 " has been successfully been deleted";
     }
 
-    public List<User> getRoleUsers(RoleType roleType) {
+    public List<User> getRoleUsers(RoleType roleType) throws ResourceNotFoundException {
         Role role = roleRepository.findByRoleType(roleType).orElseThrow(
-                () -> new ResourceNotFoundException("No ser with role " + roleType + " has been found.")
+                () -> new ResourceNotFoundException("No role.")
         );
-        List<User> users = role.getUsers();
-        return users;
+        return role.getUsers();
     }
 }

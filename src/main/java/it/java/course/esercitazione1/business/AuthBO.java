@@ -1,5 +1,7 @@
 package it.java.course.esercitazione1.business;
 
+import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
+import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.User;
 import it.java.course.esercitazione1.payload.request.LoginRequest;
 import it.java.course.esercitazione1.payload.request.SignupRequest;
@@ -10,7 +12,7 @@ import java.util.List;
 
 public interface AuthBO {
 
-    User registerU(SignupRequest signUpRequest);
+    User registerU(SignupRequest signUpRequest) throws ResourceAlreadyPresentException, ResourceNotFoundException;
 
     UserDetailsImpl authUser(LoginRequest loginRequest);
 

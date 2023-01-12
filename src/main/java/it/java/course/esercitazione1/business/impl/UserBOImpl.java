@@ -1,6 +1,7 @@
 package it.java.course.esercitazione1.business.impl;
 
 import it.java.course.esercitazione1.business.UserBO;
+import it.java.course.esercitazione1.exception.ResourceAlreadyPresentException;
 import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Role;
@@ -29,10 +30,9 @@ public class UserBOImpl implements UserBO {
     @Autowired
     PasswordEncoder encoder;
 
-    public User createU(SignupRequest signUpRequest) {
+    public User createU(SignupRequest signUpRequest) throws ResourceAlreadyPresentException, ResourceNotFoundException {
         signUpRequest.setRole(null);
-        User user = authBO.registerU(signUpRequest);
-        return user;
+        return authBO.registerU(signUpRequest);
     }
 
     public List<User> getAll() throws ResourceNotFoundException {
@@ -45,22 +45,21 @@ public class UserBOImpl implements UserBO {
         }
     }
 
-    public User getByID(long id) {
+    public User getByID(long id) throws ResourceNotFoundException {
         User user = userRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("The user ID " + id +
-                        " you are looking for does not exist in this database.")
+                () -> new ResourceNotFoundException("User id.")
         );
         return user;
     }
 
-    public String delete(long id) {
+    public String delete(long id) throws ResourceNotFoundException {
         User user = getByID(id);
         userRepository.deleteById(id);
         return "The course with the ID " + id +
                 " has been successfully been deleted";
     }
 
-    public User update(long id, User userRequest) {
+    public User update(long id, User userRequest) throws ResourceNotFoundException {
         User userU = getByID(id);
 
         // Check if the variable username has been updated or not
@@ -85,28 +84,24 @@ public class UserBOImpl implements UserBO {
 
     public User createRole(long id, Role role) {
         User userU = userRepository.getReferenceById(id);
-
         Role roleU = roleRepository.save(role);
 
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(roleU);
         userU.setRoles(roleSet);
 
-        User userA = userRepository.save(userU);
-        return userA;
+        return userRepository.save(userU);
     }
 
     public Course createCourse(long id, Course course) {
         User user = userRepository.getReferenceById(id);
-
         Course courseU = courseRepository.getReferenceById(course.getId());
 
         Set<User> userSet = new HashSet<>();
         userSet.add(user);
         courseU.setUsers(userSet);
 
-        Course courseA = courseRepository.save(courseU);
-        return courseA;
+        return courseRepository.save(courseU);
     }
 
 }

@@ -1,6 +1,7 @@
 package it.java.course.esercitazione1.controller;
 
 import it.java.course.esercitazione1.business.impl.ExamBOImpl;
+import it.java.course.esercitazione1.exception.ResourceNotFoundException;
 import it.java.course.esercitazione1.model.Exam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,11 +29,23 @@ public class ExamController {
 
     @GetMapping("/exam/grade/{grade}")
     public ResponseEntity<List<Exam>> getExamsByGrade(@PathVariable int grade) {
-        return new ResponseEntity<>(examBO.getByGrade(grade), HttpStatus.OK);
+        List<Exam> exams;
+        try {
+            exams = examBO.getByGrade(grade);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("There is no course with the given grade.");
+        }
+        return new ResponseEntity<>(exams, HttpStatus.OK);
     }
 
     @PostMapping("/exam/{examId}/course/{courseId}")
     public ResponseEntity<Exam> addExamToCourse(@PathVariable Long examId, @PathVariable long courseId) {
-        return new ResponseEntity<>(examBO.addExamToCourse(examId, courseId), HttpStatus.CREATED);
+        Exam exam;
+        try {
+            exam = examBO.addExamToCourse(examId, courseId);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Exam with id " + examId + " not found.");
+        }
+        return new ResponseEntity<>(exam, HttpStatus.CREATED);
     }
 }
