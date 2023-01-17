@@ -6,13 +6,13 @@ import it.java.course.esercitazione1.model.Course;
 import it.java.course.esercitazione1.model.Exam;
 import it.java.course.esercitazione1.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -90,5 +90,26 @@ public class CourseController {
             throw new ResourceNotFoundException("The course with the ID " + id + " that you are trying to reach doesn't exist.");
         }
         return new ResponseEntity<>(exams, HttpStatus.OK);
+    }
+
+    @PostMapping("/course/{id}/file/upload")
+    public ResponseEntity<Map<String,String>> uploadFile(@PathVariable Long id ,@RequestParam("file") MultipartFile data) {
+        try {
+            courseBO.uploadFile(id,data);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            Map<String,String> map = new HashMap<>();
+            String message = "Non posso caricare il file: " + data.getOriginalFilename();
+            map.put("Error",message);
+            return new ResponseEntity<>(map, HttpStatus.EXPECTATION_FAILED);
+
+        }
+    }
+    @GetMapping("/course/{id}/file")
+    public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
+        Course _course = courseBO.findByIdFile(id);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + _course.getName() + "\"")
+                .body(_course.getData());
     }
 }

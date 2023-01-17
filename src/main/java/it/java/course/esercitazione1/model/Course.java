@@ -28,6 +28,13 @@ public class Course {
     @Column(name = "description")
     private String description;
 
+    @Lob @Basic(fetch = FetchType.LAZY)
+    @Column(length=100000, name = "data")
+    private byte[] data;
+
+    @Column(name = "type")
+    private String type;
+
     @ManyToMany(cascade = {
             CascadeType.MERGE,
             CascadeType.REFRESH,
@@ -39,6 +46,7 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new LinkedHashSet<>();
+
     @OneToMany(cascade = {
             CascadeType.MERGE,
             CascadeType.REFRESH,
