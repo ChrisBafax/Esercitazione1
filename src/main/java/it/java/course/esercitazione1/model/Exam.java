@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Size;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "exam")
@@ -49,6 +51,18 @@ public class Exam {
             joinColumns = @JoinColumn(name = "exam_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private Course course;
+
+    @ManyToMany(cascade = {
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.DETACH,
+            CascadeType.PERSIST
+    }, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinTable(name = "exam_user",
+        joinColumns = @JoinColumn(name = "exam_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users = new LinkedList<>();
 
     public void setCourse(Course course) {
         this.course = course;

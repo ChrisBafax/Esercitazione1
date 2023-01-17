@@ -10,10 +10,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "user",
@@ -67,6 +64,15 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new LinkedHashSet<>();
+
+    @ManyToMany(cascade = {
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.DETACH,
+            CascadeType.PERSIST
+    }, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Exam> exams = new LinkedList<>();
 
     public User(String username, String email, String password) {
         this.username = username;

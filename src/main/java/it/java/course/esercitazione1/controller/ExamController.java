@@ -48,4 +48,12 @@ public class ExamController {
         }
         return new ResponseEntity<>(exam, HttpStatus.CREATED);
     }
+
+    // Work in progress
+    @PostMapping("/exam/{examId}/user/{userId}")
+    public ResponseEntity<?> addUserToExam(@PathVariable Long examId, @PathVariable long userId) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }
