@@ -93,18 +93,19 @@ public class CourseController {
     }
 
     @PostMapping("/course/{id}/file/upload")
-    public ResponseEntity<Map<String,String>> uploadFile(@PathVariable Long id ,@RequestParam("file") MultipartFile data) {
+    public ResponseEntity<Map<String, String>> uploadFile(@PathVariable Long id, @RequestParam("file") MultipartFile data) {
         try {
-            courseBO.uploadFile(id,data);
+            courseBO.uploadFile(id, data);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
-            Map<String,String> map = new HashMap<>();
+            Map<String, String> map = new HashMap<>();
             String message = "Non posso caricare il file: " + data.getOriginalFilename();
-            map.put("Error",message);
+            map.put("Error", message);
             return new ResponseEntity<>(map, HttpStatus.EXPECTATION_FAILED);
 
         }
     }
+
     @GetMapping("/course/{id}/file")
     public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
         Course _course = courseBO.findByIdFile(id);

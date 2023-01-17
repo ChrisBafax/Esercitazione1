@@ -28,8 +28,9 @@ public class Course {
     @Column(name = "description")
     private String description;
 
-    @Lob @Basic(fetch = FetchType.LAZY)
-    @Column(length=1000000000, name = "data")
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(length = 1000000000, name = "data")
     private byte[] data;
 
     @Column(name = "type")
