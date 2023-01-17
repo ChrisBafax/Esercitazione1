@@ -29,7 +29,7 @@ public class Course {
     private String description;
 
     @Lob @Basic(fetch = FetchType.LAZY)
-    @Column(length=100000, name = "data")
+    @Column(length=1000000000, name = "data")
     private byte[] data;
 
     @Column(name = "type")
