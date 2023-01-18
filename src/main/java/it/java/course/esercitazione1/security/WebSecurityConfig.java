@@ -63,7 +63,8 @@ public class WebSecurityConfig {
         httpSecurity.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().requestMatchers("/api/auth/**").permitAll()
+                .authorizeRequests()
+                .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/course").permitAll()
                 .requestMatchers("/api/course/Add").hasRole("MODERATOR")
                 .requestMatchers("/api/user").hasRole("USER")
@@ -71,7 +72,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/user/**").hasRole("ADMIN")
                 .requestMatchers("/api/course/**").hasRole("ADMIN")
                 .requestMatchers("/api/exam/**").hasRole("ADMIN")
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         httpSecurity.authenticationProvider(authenticationProvider());
 
