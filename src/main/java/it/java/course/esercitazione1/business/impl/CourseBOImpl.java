@@ -26,6 +26,7 @@ public class CourseBOImpl implements CourseBO {
     @Autowired
     ExamRepository examRepository;
 
+    @Override
     public Set<Course> getAll() throws ResourceNotFoundException {
         Set<Course> courseArrayList = new HashSet<>(courseRepository.findAll());
 
@@ -36,16 +37,19 @@ public class CourseBOImpl implements CourseBO {
         }
     }
 
+    @Override
     public Course getByID(long id) throws ResourceNotFoundException {
 
         return courseRepository.findById(id).orElseThrow(()
                 -> new ResourceNotFoundException("Course ID."));
     }
 
+    @Override
     public Course createC(Course course) {
         return courseRepository.save(course);
     }
 
+    @Override
     public String delete(long id) throws ResourceNotFoundException {
         // Check existence of the Course
         getByID(id);
@@ -54,6 +58,7 @@ public class CourseBOImpl implements CourseBO {
                 " has been successfully been deleted";
     }
 
+    @Override
     public Course update(long id, Course courseRequest) throws ResourceNotFoundException {
         Course courseU = getByID(id);
 
@@ -70,16 +75,19 @@ public class CourseBOImpl implements CourseBO {
         return courseU;
     }
 
+    @Override
     public List<User> getCourseUsers(long id) throws ResourceNotFoundException {
         Course course = getByID(id);
         return course.getUsers();
     }
 
+    @Override
     public ArrayList<Exam> getCourseExams(long id) throws ResourceNotFoundException {
         Course course = getByID(id);
         return (ArrayList<Exam>) examRepository.findByCourse(course);
     }
 
+    @Override
     public void uploadFile(Long id, MultipartFile data) throws IOException {
         Course course = courseRepository.getReferenceById(id);
         course.setData(data.getBytes());
@@ -87,10 +95,12 @@ public class CourseBOImpl implements CourseBO {
         courseRepository.save(course);
     }
 
+    @Override
     public Course findByIdFile(Long id) {
         return courseRepository.findById(id).get();
     }
 
+    @Override
     public Course deleteFileById(Long id) throws IOException {
         Course course = courseRepository.getReferenceById(id);
         String str = "";
