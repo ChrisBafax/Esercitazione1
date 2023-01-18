@@ -103,10 +103,9 @@ public class AuthBOImpl implements AuthBO {
     }
 
     public List<String> authRoles(UserDetailsImpl userDetails) {
-        List<String> roles = userDetails.getAuthorities().stream()
+        return userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-        return roles;
     }
 
     public ResponseCookie authOut() {

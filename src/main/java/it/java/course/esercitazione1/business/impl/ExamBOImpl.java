@@ -27,9 +27,8 @@ public class ExamBOImpl implements ExamBO {
     }
 
     public Exam getById(Long id) throws ResourceNotFoundException {
-        Exam exam = examRepository.findById(id).orElseThrow(()
+        return examRepository.findById(id).orElseThrow(()
                 -> new ResourceNotFoundException("Exam not found."));
-        return exam;
     }
 
     public Exam create(Exam exam) {

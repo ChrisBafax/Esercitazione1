@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -88,5 +89,13 @@ public class CourseBOImpl implements CourseBO {
 
     public Course findByIdFile(Long id) {
         return courseRepository.findById(id).get();
+    }
+
+    public Course deleteFileById(Long id) throws IOException {
+        Course course = courseRepository.getReferenceById(id);
+        String str = "";
+        course.setData(null);
+        course.setType(str);
+        return courseRepository.save(course);
     }
 }

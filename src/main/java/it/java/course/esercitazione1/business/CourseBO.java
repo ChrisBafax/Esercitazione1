@@ -30,4 +30,6 @@ public interface CourseBO {
     void uploadFile(Long id, MultipartFile data) throws IOException;
 
     Course findByIdFile(Long id);
+
+    Course deleteFileById(Long id) throws IOException;
 }

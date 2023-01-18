@@ -54,10 +54,9 @@ public class UserBOImpl implements UserBO {
     }
 
     public User getByID(long id) throws ResourceNotFoundException {
-        User user = userRepository.findById(id).orElseThrow(
+        return userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User id.")
         );
-        return user;
     }
 
     public String delete(long id) throws ResourceNotFoundException {

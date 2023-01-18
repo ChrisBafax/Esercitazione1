@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -108,9 +109,15 @@ public class CourseController {
 
     @GetMapping("/course/{id}/file")
     public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
-        Course _course = courseBO.findByIdFile(id);
+        Course course = courseBO.findByIdFile(id);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + _course.getName() + "\"")
-                .body(_course.getData());
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + course.getName() + "\"")
+                .body(course.getData());
+    }
+
+    @PutMapping("/course/{id}/file/delete")
+    public ResponseEntity<Course> deleteFile(@PathVariable Long id) throws IOException {
+        Course course = courseBO.deleteFileById(id);
+        return new ResponseEntity<>(course, HttpStatus.OK);
     }
 }

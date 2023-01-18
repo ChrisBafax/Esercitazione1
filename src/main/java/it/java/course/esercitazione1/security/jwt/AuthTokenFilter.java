@@ -22,7 +22,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     JwtUtils jwtUtils;
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    UserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

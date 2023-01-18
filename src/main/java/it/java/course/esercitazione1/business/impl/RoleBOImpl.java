@@ -23,10 +23,9 @@ public class RoleBOImpl implements RoleBO {
     }
 
     public Role getByID(long id) throws ResourceNotFoundException {
-        Role role = roleRepository.findById(id).orElseThrow(
+        return roleRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Role ID.")
         );
-        return role;
     }
 
     public Role create(Role role) {
